@@ -1,0 +1,65 @@
+.left-container {
+display: flex;
+}
+
+.top-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.bottom-container {
+    position: absolute;
+    left: calc(40% + (50% / 2));
+    bottom: 10px;
+    text-align:center;
+}
+
+.name-container {
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.goprofile-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-color);
+  font-size: 15px;
+  letter-spacing: 3px;
+}
+
+.goprofile-button {
+    background-color: transparent;
+    border: none;
+}
+
+.copyright {
+    color: var(--text-color);
+    font-family: poppins, harmonyOS_Sans;
+    margin: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+}
+
+.menuContainer {
+    background-color: red;
+    -ms-writing-mode: tb-rl;
+    writing-mode: vertical-rl;
+    -webkit-text-orientation: upright;
+    text-orientation: upright;
+    word-break: break-all;
+    line-height: 1;
+    width: 13%;
+    border-radius: 15px;
+    margin-left: 20px;
+}
+
+.menuContainer > .text {
+    color: var(--title-color);
+    font-size: 30px;
+    font-family: "harmonyOS_Sans";
+}
+

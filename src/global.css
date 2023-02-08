@@ -11,115 +11,107 @@
   --qwik-light-blue: #18b6f6;
   --qwik-light-purple: #ac7ff4;
   --qwik-dark-purple: #713fc2;
+  --background-color: #1d2026;
+  --active-color: #eb7610;
+  --title-color: #e6e6e6;
+  --text-color: #d6d6d6;
+}
+
+/*Japanese*/
+@font-face {
+  font-family: 'klee_One';
+  src: url("/public/fonts/ja/Klee_One/KleeOne-Regular.ttf");
+}
+@font-face {
+  font-family: 'rocknRoll_One';
+  src: url("/public/fonts/ja/RocknRoll_One/RocknRollOne-Regular.ttf");
+}
+@font-face {
+  font-family: 'rampart_One';
+  src: url("/public/fonts/ja/Rampart_One/RampartOne-Regular.ttf");
+}
+@font-face {
+  font-family: 'zenMaru_Gothic';
+  src: url("/public/fonts/ja/Zen_Maru_Gothic/ZenMaruGothic-Regular.ttf");
+}
+@font-face {
+  font-family: 'notoSerif_Jp';
+  src: url("/public/fonts/ja/Noto_Serif_JP/NotoSerifJP-Regular.otf");
+}
+/*Chinese*/
+@font-face {
+  font-family: 'harmonyOS_Sans';
+  src: url("/public/fonts/HarmonyOS_Sans/HarmonyOS_Sans_SC_Regular.ttf");
+}
+@font-face {
+  font-family: 'notoSans_Sc';
+  src: url("/public/fonts/zh/Noto_Sans_SC/NotoSansSC-Regular.otf");
+}
+@font-face {
+  font-family: 'notoSerif_Sc';
+  src: url("/public/fonts/zh/Noto_Serif_SC/NotoSerifSC-Regular.otf");
+}
+@font-face {
+  font-family: 'xiaoWei';
+  src: url("/public/fonts/zh/ZCOOL_XiaoWei/ZCOOLXiaoWei-Regular.ttf");
+}
+@font-face {
+  font-family: 'qingKe';
+  src: url("/public/fonts/zh/ZCOOL_QingKe_HuangYou/ZCOOLQingKeHuangYou-Regular.ttf");
+}
+@font-face {
+  font-family: 'zhiMangXing';
+  src: url("/public/fonts/zh/Zhi_Mang_Xing/ZhiMangXing-Regular.ttf");
+}
+@font-face {
+  font-family: 'liuJianMaoCao';
+  src: url("/public/fonts/zh//Liu_Jian_Mao_Cao/LiuJianMaoCao-Regular.ttf");
+}
+/*english*/
+@font-face {
+  font-family: 'poppins';
+  src: url("/public/fonts/en/Poppins/Poppins-Regular.ttf");
+}
+@font-face {
+  font-family: 'chakra_Petch';
+  src: url("/public/fonts/en/Chakra_Petch/ChakraPetch-Regular.ttf");
+}
+@font-face {
+  font-family: 'gantari';
+  src: url("/public/fonts/en/Gantari/Gantari-VariableFont_wght.ttf");
+}
+@font-face {
+  font-family: 'nabia';
+  src: url("/public/fonts/en/Nabla/Nabla-Regular-VariableFont.ttf");
+}
+@font-face {
+  font-family: 'ubuntu';
+  src: url("/public/fonts/en/Ubuntu/Ubuntu-Regular.ttf");
+}
+/*others*/
+@font-face {
+  font-family: 'flow_Circular';
+  src: url("/public/fonts/others/Flow_Circular/FlowCircular-Regular.ttf");
+}
+
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+html, main, body {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+section {
+  flex: 1;
 }
 
 body {
   background-color: #fafafa;
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  padding: 20px 20px 40px 20px;
-}
-
-main {
-  max-width: 760px;
-  margin: 0 auto;
-  background-color: white;
-  border-radius: 5px;
-  box-shadow: 0px 0px 130px -50px var(--qwik-light-purple);
-  overflow: hidden;
-}
-
-h1,
-h2 {
-  margin: 0 0 5px 0;
-}
-
-.lightning {
-  filter: hue-rotate(180deg);
-}
-
-section {
-  padding: 20px;
-  border-bottom: 10px solid var(--qwik-dark-blue);
-}
-
-ul {
-  list-style-type: square;
-  margin: 5px 0 30px 0;
-  padding-left: 25px;
-}
-
-li {
-  padding: 8px 0;
-}
-
-li::marker {
-  color: var(--qwik-light-blue);
-}
-
-a,
-a:visited {
-  color: var(--qwik-dark-blue);
-}
-
-a:hover {
-  text-decoration: none;
-}
-
-table.commands {
-  margin: 0 0 30px 0;
-}
-
-.commands td {
-  padding: 5px;
-}
-
-.commands td:first-child {
-  white-space: nowrap;
-  padding-right: 20px;
-}
-
-code {
-  font-family: Menlo, Monaco, Courier New, monospace;
-  font-size: 0.9em;
-  background-color: rgb(224, 224, 224);
-  padding: 2px 4px;
-  border-radius: 3px;
-  border-bottom: 2px solid #bfbfbf;
-}
-
-footer {
-  padding: 15px;
-  text-align: center;
-  font-size: 0.8em;
-}
-
-footer a {
-  text-decoration: none;
-}
-
-footer a:hover {
-  text-decoration: underline;
-}
-
-a.mindblow {
-  margin: 0 auto;
-  display: block;
-  background: var(--qwik-dark-purple);
-  padding: 10px 20px;
-  border-radius: 10px;
-  border: 0;
-  color: white;
-  text-decoration: none;
-  font-size: 20px;
-  width: fit-content;
-  border-bottom: 4px solid black;
-  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>🤯</text></svg>")
-      16 0,
-    auto; /*!emojicursor.app*/
-}
-
-a.mindblow:hover {
-  border-bottom-width: 0px;
-  margin-bottom: 4px;
-  transform: translateY(4px);
+  font-family: harmonyOS_Sans, zenMaru_Gothic,system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  margin: 0px;
 }

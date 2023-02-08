@@ -1,0 +1,17 @@
+.body {
+    background-color: var(--background-color);
+    width: 100vw;
+    height: 100vh;
+}
+.left {
+    width: 80%;
+    height: 100vh;
+    float: left;
+}
+
+.right {
+    width: 20%;
+    height: 100vh;
+    background-color: blue;
+    float: right;
+}

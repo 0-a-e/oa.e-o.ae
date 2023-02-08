@@ -5,7 +5,9 @@
 - [Qwik GitHub](https://github.com/BuilderIO/qwik)
 - [@QwikDev](https://twitter.com/QwikDev)
 - [Vite](https://vitejs.dev/)
-
+- [ ] ブラウザ上でJSCPPで実行するようにする
+- [ ] CPPのとこで計算して年齢生成するようにする
+- [ ] oa.e-o.ae -> orangeのアニメーション作る
 ---
 
 ## Project Structure
@@ -62,4 +64,22 @@ The production build will generate client and server modules by running both cli
 
 ```shell
 npm run build # or `yarn build`
+```
+
+## Static Site Generator (Node.js)
+
+```
+npm run build.server
+```
+
+## Static Site Generator (Node.js)
+
+```
+npm run build.server
+```
+
+## Static Site Generator (Node.js)
+
+```
+npm run build.server
 ```
