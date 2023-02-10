@@ -91,9 +91,16 @@ export const BigVideoContainer = component$(({data, containerSizes}) => {
   //const swiper = useSignal();
   const activeIndex = useContext(activeIndexContext);
   console.log("ais", activeIndex);
-  
-  useServerMount$(() => {
-    let swiper = new Swiper(".bigVideosContainer", {
+  let swiper;
+
+  try {
+    swiper.slideTo(activeIndex, 1500, true);
+  } catch {
+    console.log("hwh");
+  }
+
+  useClientEffect$(() => {
+    const swiper = new Swiper(".bigVideosContainer", {
       direction: 'vertical',
       loop:true,
       autoplay: {
@@ -105,8 +112,8 @@ export const BigVideoContainer = component$(({data, containerSizes}) => {
         prevEl: ".swiper-button-prev",
       },
     });
-       console.log("LIJFOIJODIJORJIOEIJOTIJRO");
-       //swiper.slideTo(activeIndex, 1500, true);
+    console.log("activeIndex", activeIndex.value);
+    swiper.slideTo(7, 1500, true);
   });
 
 return (
@@ -118,7 +125,8 @@ return (
           <div class="titleContainer">
             <p class="title">
               {bigVideo.title}
-              {activeIndex.value}
+              
+              {"(" + activeIndex.value + ")"}
             </p>
           </div>
         </div>
