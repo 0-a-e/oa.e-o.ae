@@ -1,5 +1,4 @@
 .container {
-    width: 100%;
     height: 100%;
     display: flex;
 }
@@ -36,8 +35,6 @@
 /* miniVideo */
 
 .miniVideosContainer {
-    height: 100%;
-    width: 30%;
     margin-left: 3%;
     overflow: scroll;
     /*edge*/
@@ -54,7 +51,7 @@
 
 .miniVideoContainer {
     background-color: red;
-    height: 30%;
+    height: 100%;
     width: 100%;
     border-radius: 20px;
     margin-top: 10px;

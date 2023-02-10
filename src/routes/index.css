@@ -11,13 +11,14 @@
 
 .right-container {
     float: right;
-    width: calc(60vw - 1%);
+    width: calc(30vw - 1%);
     height: 100%;
+    display: none;
 }
 
 .left-container {
     float: left;
-    width: calc(30vw - 1%);
+    width: calc(70vw - 1%);
     height: 100%;
 }
 
