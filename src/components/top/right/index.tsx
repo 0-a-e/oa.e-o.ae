@@ -19,15 +19,24 @@ export default component$(() => {
   ];
   return (
     <div class="container">
-      <div class="top-container">
+        <div class="profileContainer">
+        <img class="icon" src="/icon-transparent.png" />
+      <div class="name-container">
+        <p class="name">Orange</p>
+      </div>
+        </div>
+        <div class="menusContainer">
         {menus.map((menu) => {
           return (
             <div class="menuContainer">
               <p class="text">{menu.title}</p>
+              <div class="menuBox">
+          
+              </div>
             </div>
           );
         })}
-      </div>
+        </div>
       <div class="bottom-container">
         <p class="copyright">©2018-2023 Orange 版权所有</p>
       </div>
