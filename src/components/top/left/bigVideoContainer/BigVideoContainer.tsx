@@ -1,39 +1,60 @@
-import { component$, useStylesScoped$, useStore, useContext, useClientEffect$, noSerialize } from "@builder.io/qwik";
-import Swiper, { Navigation, Pagination } from "swiper";
+import {
+  component$,
+  useStylesScoped$,
+  useStore,
+  useContext,
+  useClientEffect$,
+  noSerialize,
+} from "@builder.io/qwik";
+import Swiper, { Navigation, Pagination, Mousewheel } from "swiper";
 import { activeIndexContext } from "..";
 import styles from "../index.css?inline";
 
-export const BigVideoContainer = component$(({ data, containerSizes }) => {
+export const BigVideoContainer = component$(
+  ({ data, containerSizes, onChanged }) => {
     useStylesScoped$(styles);
+
     const state = useStore({
       swiper: null,
     });
     const activeIndex = useContext(activeIndexContext);
-  
+
     useClientEffect$(() => {
       if (state.swiper === null || state.swiper === undefined) {
         state.swiper = noSerialize(
           new Swiper(".bigVideosContainer", {
+            modules: [Navigation, Pagination, Mousewheel],
             direction: "vertical",
+            simulateTouch: true,
+            allowTouchMove: true,
             loop: true,
-            autoplay: {
-              delay: 5000,
+            grabCursor: true,
+            spaceBetween: 30,
+            mousewheel: {
+              invert: true,
+              releaseOnEdges: false,
             },
-            modules: [Navigation, Pagination],
             navigation: {
               nextEl: ".swiper-button-next",
               prevEl: ".swiper-button-prev",
             },
+            on: {
+              transitionEnd: function (swiper) {
+                onChanged({index: swiper.realIndex, from: "big"});
+              },
+            },
           })
         );
       }
-      state.swiper.slideTo(7, 1200, true);
     });
-  
+
     try {
-      state.swiper.slideTo(activeIndex.value, 1200, true);
+      if (activeIndex.isRefreshBigVideo) {
+        state.swiper.slideTo(activeIndex.index, 1200, true);
+        activeIndex.isRefreshBigVideo = false;
+      }
     } catch {}
-  
+
     return (
       <div
         class="bigVideosContainer"
@@ -49,7 +70,7 @@ export const BigVideoContainer = component$(({ data, containerSizes }) => {
                 <div class="titleContainer">
                   <p class="title">
                     {bigVideo.title}
-                    {"(" + activeIndex.value + ")"}
+                    {"(" + activeIndex.index + ")"}
                   </p>
                 </div>
               </div>
@@ -58,6 +79,5 @@ export const BigVideoContainer = component$(({ data, containerSizes }) => {
         </div>
       </div>
     );
-  });
-  
-  
+  }
+);

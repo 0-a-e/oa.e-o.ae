@@ -4,18 +4,18 @@ import {
   useContext,
   useStore,
   useClientEffect$,
-  useRef,
   useSignal,
+  noSerialize,
 } from "@builder.io/qwik";
-import { activeIndexContext } from "..";
+import { activeIndexContext, miniVideoOnChangedContext } from "..";
 import styles from "../index.css?inline";
-import InfiniteScroll from "infinite-scroll";
 
 export default component$(({ data, containerSizes }) => {
   useStylesScoped$(styles);
   const itemRefs = useSignal<Array<Element>>([]);
   const videosContainerRef = useSignal<Element>();
-
+  const miniVideoOnChanged = useContext(miniVideoOnChangedContext);
+  const activeIndex = useContext(activeIndexContext);
   const state = useStore({
     viewedData: data,
     defaultData: data,
@@ -23,15 +23,16 @@ export default component$(({ data, containerSizes }) => {
   });
   useClientEffect$(() => {
     state.viewedData = createNewList(0, state);
-    /*let infScroll = new InfiniteScroll(videosContainerRef, {
-      // options
-      path: '.pagination__next',
-      append: '.post',
-      history: false,
-    });*/
   });
 
-  const activeIndex = useContext(activeIndexContext);
+  type parentOnChangedTypes = {
+    index: number;
+    from: "big" | "mini";
+  };
+
+  miniVideoOnChanged.value = noSerialize((props:parentOnChangedTypes) => {
+    onChanged({ index: { globalIndex: props.index }, state, activeIndex, itemRefs, from: props.from });
+  });
   return (
     <div
       ref={videosContainerRef}
@@ -65,12 +66,7 @@ export const MiniVideo = ({
       class="miniVideoContainer"
       ref={(el) => (itemRefs.value[i] = el)}
       onClick$={() => {
-        const inDefaultDataIndex = getinDefaultDataIndex(i, state);
-        itemRefs.value[inDefaultDataIndex].scrollIntoView({
-          behavior: "smooth",
-        });
-        activeIndex.value = inDefaultDataIndex;
-        state.viewedData = createNewList(inDefaultDataIndex, state);
+        onChanged({ index: { localIndex: i }, state, activeIndex, itemRefs, from:"mini" });
       }}
       style={{
         height: containerSizes.minus3_5xHeight.toString() + "px",
@@ -81,6 +77,43 @@ export const MiniVideo = ({
       <p>{"{" + i + "}"}</p>
     </div>
   );
+};
+
+export type onChangedProps = {
+  index:
+    | {
+        globalIndex: number;
+      }
+    | {
+        localIndex: number;
+      };
+  state: any;
+  activeIndex: {
+    index: number;
+    isRefreshBigVideo: boolean;
+  };
+  itemRefs: any;
+  from: "big" | "mini";
+};
+
+export const onChanged = (props: onChangedProps) => {
+  const { state, activeIndex, itemRefs, from }: onChangedProps = props;
+  const index: number =
+    "localIndex" in props.index
+      ? getinDefaultDataIndex(props.index.localIndex, state)
+      : "globalIndex" in props.index
+      ? props.index.globalIndex
+      : 0;
+      itemRefs.value[index].scrollIntoView({
+        behavior: "smooth",
+      });
+  if (activeIndex.index !== index) {
+    activeIndex.index = index;
+    if (from == "mini"){
+      activeIndex.isRefreshBigVideo = true;
+    }
+    state.viewedData = createNewList(index, state);
+  }
 };
 
 export const getinDefaultDataIndex = (clickedIndex: number, state) => {

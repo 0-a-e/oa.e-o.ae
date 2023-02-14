@@ -9,11 +9,16 @@ export default component$(() => {
           <Slot />
         </section>
       </main>
-      <footer>
+ 
+     </>
+  );
+});
+
+/*
+     <footer>
         <a href="https://www.builder.io/" target="_blank">
           フッター
         </a>
       </footer>
-    </>
-  );
-});
+
+*/

@@ -1,6 +1,7 @@
 import {
   component$,
   createContext,
+  noSerialize,
   useClientEffect$,
   useContextProvider,
   useSignal,
@@ -20,19 +21,25 @@ import { BigVideoContainer } from "./bigVideoContainer/BigVideoContainer";
 import MiniVideoContainer from "./miniVideoContainer/MiniVideoContainer";
 
 export const activeIndexContext = createContext("activeIndex");
-
+export const miniVideoOnChangedContext = createContext("onChanged");
 export default component$(() => {
   useStylesScoped$(styles);
 
   const containerRef = useSignal<Element>();
-  const activeIndex = useSignal<number>(0);
+  const activeIndex = useStore({
+    index: 0,
+    isRefreshBigVideo: false,
+  });
+  const miniVideoOnChanged = useSignal();
+  useContextProvider(activeIndexContext, activeIndex);
+  useContextProvider(miniVideoOnChangedContext, miniVideoOnChanged);
+  
   const containerSizes = useStore({
     height: 0,
     width: 0,
     minus3_5xHeight: 0,
     minus3_5xWidth: 0,
   });
-  useContextProvider(activeIndexContext, activeIndex);
   useClientEffect$(() => {
     if (
       containerRef.value?.clientHeight &&
@@ -45,32 +52,13 @@ export default component$(() => {
     }
   });
 
-  const testVideos = [
-    {
-      title: "A1",
-    },
-    {
-      title: "B2",
-    },
-    {
-      title: "C3",
-    },
-    {
-      title: "D4",
-    },
-    {
-      title: "E5",
-    },
-    {
-      title: "F6",
-    },
-    {
-      title: "G7",
-    },
-    {
-      title: "H8",
-    },
-  ];
+  type parentOnChangedTypes = {
+    index: number;
+    from: "big" | "mini";
+  };
+  const onChanged = (props:parentOnChangedTypes) => {
+    miniVideoOnChanged.value(props);
+  };
 
   return (
     <div class="container" ref={containerRef}>
@@ -78,6 +66,7 @@ export default component$(() => {
         <>
           <BigVideoContainer
             data={testVideos}
+            onChanged={noSerialize(onChanged)}
             containerSizes={containerSizes}
           />
           <MiniVideoContainer
@@ -91,3 +80,31 @@ export default component$(() => {
     </div>
   );
 });
+
+export const testVideos = [
+  {
+    title: "A1",
+  },
+  {
+    title: "B2",
+  },
+  {
+    title: "C3",
+  },
+  {
+    title: "D4",
+  },
+  {
+    title: "E5",
+  },
+  {
+    title: "F6",
+  },
+  {
+    title: "G7",
+  },
+  {
+    title: "H8",
+  },
+];
+
