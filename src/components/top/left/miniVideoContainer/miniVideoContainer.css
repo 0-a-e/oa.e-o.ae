@@ -1,0 +1,15 @@
+/* miniVideo */
+
+.miniVideosContainer {
+    margin-left:1vw;
+    overflow: scroll;
+    /*edge*/
+    -ms-overflow-style: none;
+    /*firefox*/
+    scrollbar-width: none;
+}
+
+/*Chrome&Safari*/
+.miniVideosContainer::-webkit-scrollbar {
+    display: none;
+}

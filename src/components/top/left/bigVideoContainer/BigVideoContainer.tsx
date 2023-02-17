@@ -5,19 +5,20 @@ import {
   useContext,
   useClientEffect$,
   noSerialize,
+  useSignal,
 } from "@builder.io/qwik";
 import Swiper, { Navigation, Pagination, Mousewheel } from "swiper";
 import { activeIndexContext } from "..";
-import styles from "../index.css?inline";
-
+import { BigVideo } from "./BigVideo";
+import styles from "./bigVideoContainer.css?inline";
+import swiperStyles from './swiper.css?inline';
 export const BigVideoContainer = component$(
   ({ data, containerSizes, onChanged }) => {
-    useStylesScoped$(styles);
-
     const state = useStore({
       swiper: null,
     });
     const activeIndex = useContext(activeIndexContext);
+    const videosRef = useSignal<Array<Element>>([]);
 
     useClientEffect$(() => {
       if (state.swiper === null || state.swiper === undefined) {
@@ -31,7 +32,7 @@ export const BigVideoContainer = component$(
             grabCursor: true,
             spaceBetween: 30,
             mousewheel: {
-              invert: true,
+              // invert: true,
               releaseOnEdges: false,
             },
             navigation: {
@@ -40,7 +41,8 @@ export const BigVideoContainer = component$(
             },
             on: {
               transitionEnd: function (swiper) {
-                onChanged({index: swiper.realIndex, from: "big"});
+                onChanged({ index: swiper.realIndex, from: "big" });
+                videosRef.value[swiper.realIndex].play();
               },
             },
           })
@@ -54,7 +56,7 @@ export const BigVideoContainer = component$(
         activeIndex.isRefreshBigVideo = false;
       }
     } catch {}
-
+    useStylesScoped$(styles, swiperStyles);
     return (
       <div
         class="bigVideosContainer"
@@ -64,20 +66,20 @@ export const BigVideoContainer = component$(
         }}
       >
         <div class="swiper-wrapper">
-          {data.map((bigVideo) => {
-            return (
-              <div class="bigVideoContainer swiper-slide">
-                <div class="titleContainer">
-                  <p class="title">
-                    {bigVideo.title}
-                    {"(" + activeIndex.index + ")"}
-                  </p>
-                </div>
-              </div>
-            );
-          })}
+          {data.map((video, index: number) => (
+            <BigVideo
+              video={video}
+              state={state}
+              videosRef={videosRef}
+              index={index}
+            />
+          ))}
         </div>
       </div>
     );
   }
 );
+
+export const handleVideoEnded = (state) => {
+  state.swiper.slideNext();
+};

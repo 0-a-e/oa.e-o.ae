@@ -8,11 +8,19 @@ import {
   noSerialize,
 } from "@builder.io/qwik";
 import { activeIndexContext, miniVideoOnChangedContext } from "..";
-import styles from "../index.css?inline";
+import MiniVideo from "./MiniVideo";
+import styles from "./miniVideoContainer.css?inline";
 
 export default component$(({ data, containerSizes }) => {
   useStylesScoped$(styles);
-  const itemRefs = useSignal<Array<Element>>([]);
+  type itemRef = {
+    container: Element;
+    video: Element;
+  };
+  const itemRefs = useStore({
+    container: [],
+    video: [],
+  });
   const videosContainerRef = useSignal<Element>();
   const miniVideoOnChanged = useContext(miniVideoOnChangedContext);
   const activeIndex = useContext(activeIndexContext);
@@ -30,8 +38,14 @@ export default component$(({ data, containerSizes }) => {
     from: "big" | "mini";
   };
 
-  miniVideoOnChanged.value = noSerialize((props:parentOnChangedTypes) => {
-    onChanged({ index: { globalIndex: props.index }, state, activeIndex, itemRefs, from: props.from });
+  miniVideoOnChanged.value = noSerialize((props: parentOnChangedTypes) => {
+    onChanged({
+      index: { globalIndex: props.index },
+      state,
+      activeIndex,
+      itemRefs,
+      from: props.from,
+    });
   });
   return (
     <div
@@ -39,45 +53,20 @@ export default component$(({ data, containerSizes }) => {
       class="miniVideosContainer"
       style={{ height: containerSizes.height.toString() + "px" }}
     >
-      {state.viewedData.map((miniVideo, i: number) => (
+      {state.viewedData.map((video, i: number) => (
         <MiniVideo
-          miniVideo={miniVideo}
+          video={video}
           i={i}
           itemRefs={itemRefs}
           state={state}
           activeIndex={activeIndex}
           containerSizes={containerSizes}
+          onChanged={noSerialize(onChanged)}
         />
       ))}
     </div>
   );
 });
-
-export const MiniVideo = ({
-  miniVideo,
-  i,
-  itemRefs,
-  state,
-  activeIndex,
-  containerSizes,
-}) => {
-  return (
-    <div
-      class="miniVideoContainer"
-      ref={(el) => (itemRefs.value[i] = el)}
-      onClick$={() => {
-        onChanged({ index: { localIndex: i }, state, activeIndex, itemRefs, from:"mini" });
-      }}
-      style={{
-        height: containerSizes.minus3_5xHeight.toString() + "px",
-        width: containerSizes.minus3_5xWidth.toString() + "px",
-      }}
-    >
-      <p>{miniVideo.title}</p>
-      <p>{"{" + i + "}"}</p>
-    </div>
-  );
-};
 
 export type onChangedProps = {
   index:
@@ -104,12 +93,12 @@ export const onChanged = (props: onChangedProps) => {
       : "globalIndex" in props.index
       ? props.index.globalIndex
       : 0;
-      itemRefs.value[index].scrollIntoView({
-        behavior: "smooth",
-      });
+  itemRefs.container[index].scrollIntoView({
+    behavior: "smooth",
+  });
   if (activeIndex.index !== index) {
     activeIndex.index = index;
-    if (from == "mini"){
+    if (from == "mini") {
       activeIndex.isRefreshBigVideo = true;
     }
     state.viewedData = createNewList(index, state);

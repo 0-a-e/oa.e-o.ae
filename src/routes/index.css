@@ -4,11 +4,21 @@
 }
 
 .container {
-    background-color: var(--background-color);
+    background: linear-gradient(35deg, var(--background-color) 0%, var(--background-color) 80%, #f7d19c 100%) 0 0 / 150% 200% repeat;
+    animation: colorchangeanimation-bg 5s infinite alternate;
     box-sizing: border-box;
     padding: 2%;
     display: flex;
 }
+
+@keyframes colorchangeanimation-bg {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 150% 0;
+    }
+  }
 
 .right-container {
     float: right;

@@ -19,12 +19,6 @@ export default component$(() => {
   ];
   return (
     <div class="container">
-        <div class="profileContainer">
-        <img class="icon" src="/icon-transparent.png" />
-      <div class="name-container">
-        <p class="name">Orange</p>
-      </div>
-        </div>
         <div class="menusContainer">
         {menus.map((menu) => {
           return (
