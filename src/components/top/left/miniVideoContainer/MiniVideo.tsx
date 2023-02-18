@@ -17,10 +17,10 @@ export default component$(({
         ref={(el) => (itemRefs.container[i] = el)}
         onClick$={() => {
           onChanged({
+            state: state,
             index: { localIndex: i },
-            state,
-            activeIndex,
-            itemRefs,
+            activeIndex: activeIndex,
+            itemRefs: itemRefs,
             from: "mini",
           });
         }}

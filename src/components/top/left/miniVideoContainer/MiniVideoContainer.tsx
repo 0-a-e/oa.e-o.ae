@@ -87,23 +87,25 @@ export type onChangedProps = {
 
 export const onChanged = (props: onChangedProps) => {
   const { state, activeIndex, itemRefs, from }: onChangedProps = props;
-  const index: number =
-    "localIndex" in props.index
-      ? getinDefaultDataIndex(props.index.localIndex, state)
-      : "globalIndex" in props.index
-      ? props.index.globalIndex
-      : 0;
-  itemRefs.container[index].scrollIntoView({
+  itemRefs.container[getGlobalIndex(props.index, state)].scrollIntoView({
     behavior: "smooth",
   });
-  if (activeIndex.index !== index) {
-    activeIndex.index = index;
+  if (activeIndex.index !== getGlobalIndex(props.index, state)) {
+    activeIndex.index = getGlobalIndex(props.index, state);
     if (from == "mini") {
       activeIndex.isRefreshBigVideo = true;
     }
-    state.viewedData = createNewList(index, state);
+    state.viewedData = createNewList(getGlobalIndex(props.index, state), state);
   }
 };
+
+export const getGlobalIndex = (unknownIndex,state) => (
+    "localIndex" in unknownIndex
+      ? getinDefaultDataIndex(unknownIndex.localIndex, state)
+      : "globalIndex" in unknownIndex
+      ? unknownIndex.globalIndex
+      : 0
+);
 
 export const getinDefaultDataIndex = (clickedIndex: number, state) => {
   let i = 0;
