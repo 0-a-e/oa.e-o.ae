@@ -1,26 +1,27 @@
-import { component$, useStylesScoped$ } from "@builder.io/qwik";
+import { component$, useContext, useStylesScoped$ } from "@builder.io/qwik";
+import { activeIndexContext } from "..";
 import styles from "./miniVideo.css?inline";
+import onChanged from "../onChanged";
 
 export default component$(({
     video,
     i,
-    itemRefs,
+    miniVideoItemRefs,
     state,
-    activeIndex,
     containerSizes,
-    onChanged
   }) => {
+    const activeIndex = useContext(activeIndexContext);
     useStylesScoped$(styles);
     return (
       <div
         class="miniVideoContainer"
-        ref={(el) => (itemRefs.container[i] = el)}
+        ref={(el) => (miniVideoItemRefs.container[i] = el)}
         onClick$={() => {
           onChanged({
             index: { localIndex: i },
-            state,
-            activeIndex,
-            itemRefs,
+            state: state,
+            activeIndex: activeIndex,
+            containerRefs: miniVideoItemRefs.container,
             from: "mini",
           });
         }}

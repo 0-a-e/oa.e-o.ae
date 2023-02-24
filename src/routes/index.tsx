@@ -12,7 +12,6 @@ export const onGet: RequestHandler<Array<blogType>> = async () => {
   return data;
 };
 
-
 export default component$(() => {
   useStylesScoped$(styles);
   return (

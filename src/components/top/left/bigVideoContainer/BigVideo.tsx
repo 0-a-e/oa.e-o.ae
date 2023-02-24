@@ -12,7 +12,7 @@ export const BigVideo = component$(({ video, state, videosRef, index }) => {
             ref={(el) => {
               videosRef.value[index] = el;
             }}
-            onEnded$={() => handleVideoEnded(state)}
+            onEnded$={() => handleVideoEnded(state.swiper)}
             class="backgroundVideo"
             muted
             autoPlay

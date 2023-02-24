@@ -8,16 +8,20 @@ import {
   useSignal,
 } from "@builder.io/qwik";
 import Swiper, { Navigation, Pagination, Mousewheel } from "swiper";
-import { activeIndexContext } from "..";
+import { activeIndexContext, miniVideoItemRefsContext } from "..";
+import onChanged from "../onChanged";
 import { BigVideo } from "./BigVideo";
 import styles from "./bigVideoContainer.css?inline";
 import swiperStyles from './swiper.css?inline';
 export const BigVideoContainer = component$(
-  ({ data, containerSizes, onChanged }) => {
+  ({ data, containerSizes}) => {
+  
     const state = useStore({
       swiper: null,
     });
     const activeIndex = useContext(activeIndexContext);
+    const miniVideoItemRefs = useContext(miniVideoItemRefsContext);
+
     const videosRef = useSignal<Array<Element>>([]);
 
     useClientEffect$(() => {
@@ -41,7 +45,13 @@ export const BigVideoContainer = component$(
             },
             on: {
               transitionEnd: function (swiper) {
-                onChanged({ index: swiper.realIndex, from: "big" });
+                onChanged({
+                  index: { globalIndex: swiper.realIndex },
+                  state: state,
+                  activeIndex: activeIndex,
+                  containerRefs: miniVideoItemRefs.container,
+                  from: "big",
+                });
                 videosRef.value[swiper.realIndex].play();
               },
             },
@@ -56,6 +66,7 @@ export const BigVideoContainer = component$(
         activeIndex.isRefreshBigVideo = false;
       }
     } catch {}
+
     useStylesScoped$(styles, swiperStyles);
     return (
       <div
@@ -80,6 +91,6 @@ export const BigVideoContainer = component$(
   }
 );
 
-export const handleVideoEnded = (state) => {
-  state.swiper.slideNext();
+export const handleVideoEnded = (swiper) => {
+  swiper.slideNext();
 };
