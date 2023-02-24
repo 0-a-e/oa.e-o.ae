@@ -18,6 +18,7 @@ export default component$(({
         ref={(el) => (miniVideoItemRefs.container[i] = el)}
         onClick$={() => {
           onChanged({
+            state: state,
             index: { localIndex: i },
             state: state,
             activeIndex: activeIndex,

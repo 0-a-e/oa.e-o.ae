@@ -1,20 +1,14 @@
 const onChanged = (props: onChangedProps) => {
     const { state, activeIndex, containerRefs, from }: onChangedProps = props;
-    const index: number =
-        "localIndex" in props.index
-            ? getinDefaultDataIndex(props.index.localIndex, state)
-            : "globalIndex" in props.index
-                ? props.index.globalIndex
-                : 0;
-    containerRefs[index].scrollIntoView({
+    containerRefs[getGlobalIndex(props.index, state)].scrollIntoView({
         behavior: "smooth",
     });
-    if (activeIndex.index !== index) {
-        activeIndex.index = index;
+    if (activeIndex.index !== getGlobalIndex(props.index, state)) {
+        activeIndex.index = getGlobalIndex(props.index, state);
         if (from == "mini") {
             activeIndex.isRefreshBigVideo = true;
         }
-        state.miniVideoListData = createNewList(index, state);
+        state.miniVideoListData = createNewList(getGlobalIndex(props.index, state), state);
     }
 };
 
@@ -57,3 +51,11 @@ export type onChangedProps = {
     containerRefs: Array<Element>;
     from: "big" | "mini";
 };
+
+export const getGlobalIndex = (unknownIndex,state) => (
+    "localIndex" in unknownIndex
+      ? getinDefaultDataIndex(unknownIndex.localIndex, state)
+      : "globalIndex" in unknownIndex
+      ? unknownIndex.globalIndex
+      : 0
+);
