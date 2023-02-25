@@ -1,8 +1,8 @@
 import { component$, useStylesScoped$ } from "@builder.io/qwik";
 import { url } from "inspector";
-import styles from './item.css?inline';
+import styles from './contactCard.css?inline';
 
-export const Item = component$((props: { data: Response }) => {
+export default component$((props: { data: Response }) => {
     useStylesScoped$(styles);
 //  <img src={data.serviceImage.url} class="background-image" />
     const data = props.data;
@@ -10,8 +10,9 @@ export const Item = component$((props: { data: Response }) => {
     return (
       <div class="container">
       <div class="content-container">
-      <h1>{data.title}</h1>
-      <p>{data.username}</p>
+      <image src={data.serviceImage.url} class="logo" />
+      <h1 class="title">{data.title}</h1>
+      <p class="userName">{data.username}</p>
       </div>
       </div>
     );

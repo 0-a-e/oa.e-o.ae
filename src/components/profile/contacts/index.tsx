@@ -1,6 +1,6 @@
 import { component$, Resource } from "@builder.io/qwik";
 import { useEndpoint } from "@builder.io/qwik-city";
-import { Item } from "./item";
+import ContactCard from "./contactCard";
 
 export default component$(() => {
   const resource = useEndpoint<Array<Response>>();
@@ -13,9 +13,9 @@ export default component$(() => {
         onResolved={(posts) => {
           console.log(posts);
           return(
-          <ul>
+          <ul style={{overflow : 'scroll', position: 'relative', height: "100vh"}}>
             {posts.contents.map((post: Response) => (
-              <Item key={post.uri} data={post} />
+              <ContactCard key={post.uri} data={post} />
             ))}
           </ul>
         )}}
